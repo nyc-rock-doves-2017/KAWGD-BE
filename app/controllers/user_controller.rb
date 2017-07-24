@@ -7,7 +7,7 @@ class UserController < ActionController::API
   def create
     @user = User.new(user_params)
     if @user.save
-      @user.id.as_json
+      render json: @user.id
       status 200
     else
       status 400
@@ -16,7 +16,18 @@ class UserController < ActionController::API
 
   def show
     @user = User.find_by(id: params[:id])
-    @orders = Order.where(merchant_id: @user.id)
+
+    if @user.user_type == "merchant"
+      @orders = Order.where(merchant_id: @user.id)
+      render json: @orders
+    else
+      assigned = Assigned.where(deliverer_id: @user.id)
+      @orders = []
+      assigned.each do |assigned_object|
+        @orders << Order.find_by(id: assigned_object.order_id)
+      end
+      render json: @orders
+    end
   end
 
   private
