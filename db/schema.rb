@@ -12,30 +12,17 @@
 
 ActiveRecord::Schema.define(version: 20170724191309) do
 
-  create_table "order_assigneds", force: :cascade do |t|
+  create_table "assigneds", force: :cascade do |t|
     t.integer "order_id", null: false
+    t.integer "deliverer_id", null: false
     t.datetime "assignment_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "order_delivereds", force: :cascade do |t|
-    t.integer "order_id", null: false
+  create_table "delivereds", force: :cascade do |t|
+    t.integer "assigned_id", null: false
     t.datetime "delivered_time", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "order_pickups", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.datetime "pickup_time", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "order_placeds", force: :cascade do |t|
-    t.integer "order_id", null: false
-    t.datetime "order_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -52,6 +39,13 @@ ActiveRecord::Schema.define(version: 20170724191309) do
     t.string "cust_zipcode", null: false
     t.string "cust_country", null: false
     t.string "cust_phone_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pickups", force: :cascade do |t|
+    t.integer "assigned_id", null: false
+    t.datetime "pickup_time", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
