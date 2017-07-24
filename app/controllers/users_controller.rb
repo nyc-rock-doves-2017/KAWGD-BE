@@ -18,8 +18,18 @@ class UsersController < ActionController::API
     @user = User.find_by(id: params[:id])
 
     if @user.user_type == "merchant"
-      @orders = Order.where(merchant_id: @user.id)
-      render json: @orders
+      orders = Order.where(merchant_id: @user.id)
+      @data = []
+      orders.each do |order|
+        if order.assigned != nil
+          @data << order
+          @data << order.assigned.delivered
+          # Wan needs order_id and delivered_time
+        else
+          @data << order
+        end
+      end
+      render json: @data
     else
       assigned = Assigned.where(deliverer_id: @user.id)
       @orders = []
