@@ -29,9 +29,8 @@ ActiveRecord::Schema.define(version: 20170724191309) do
 
   create_table "orders", force: :cascade do |t|
     t.integer "merchant_id", null: false
-    t.integer "deliverer_id"
     t.string "items", null: false
-    t.float "total_price", null: false
+    t.integer "total_price", null: false
     t.string "cust_name", null: false
     t.string "cust_street_ad", null: false
     t.string "cust_city_town", null: false
