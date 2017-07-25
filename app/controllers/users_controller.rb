@@ -8,9 +8,14 @@ class UsersController < ActionController::API
     @user = User.new(user_params)
     if @user.save
       render json: @user.id
-      status 200
+      render json: {
+        status: 200
+      }, status: 200
     else
-      status 400
+      render json: {
+        error: "No such user; check the submitted email address",
+        status: 400
+      }, status: 400
     end
   end
 
