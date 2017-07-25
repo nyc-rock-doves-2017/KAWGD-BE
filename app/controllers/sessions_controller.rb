@@ -1,6 +1,9 @@
 class SessionsController < ApplicationController
+  def verify
+    @user = User.new
+  end
+
   def login
-    # getting email and password
     @user = User.find_by(email: params[:email])
     if @user
       status 200
@@ -9,4 +12,5 @@ class SessionsController < ApplicationController
       status 400
     end
   end
+
 end
