@@ -15,6 +15,11 @@ class OrdersController < ApplicationController
     render json: @unassigned_orders
   end
 
+  def show
+    @order = Order.find_by(id: params[:id])
+    render json: @order
+  end
+
   def create
     @order = Order.new(order_params)
     if @order.save
@@ -25,7 +30,8 @@ class OrdersController < ApplicationController
   end
 
   def update
-    
+    @order = Order.find_by(id: params[:id])
+
   end
 
   private
@@ -34,5 +40,16 @@ class OrdersController < ApplicationController
     params.require(:merchant_id, :items, :total, :cust_name, :cust_street_address,
     :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone).permit(merchant_id, :items, :total, :cust_name, :cust_street_address,
     :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone)
-  end 
+  end
+
+  def order_details
+    @order = Order.find_by(id: params[:id])
+    @assigned = Assigned.find_by(order_id: @order.id)
+    @pickup = Pickup.find_by(assigned_id: @assigned.id)
+    @delivered = Delivered.find_by(assigned_id: @assigned.id)
+    @bikeboy = User.find_by(id: @assigned.deliverer_id)
+    @merchant = User.find_by(id: @order.merchant_id)
+    @details = [{orderId: @order.id, bikeboyId: @bikeboy.id, bikeboyName: @bikeboy.name, assigned: @assigned.assignment_time, pickup: @pickup.pickup_time, droppedOff: @delivered.delivered_time, merchantName: @merchant.name, merchantId: @merchant.id}]
+    return @details
+  end
 end

@@ -5,6 +5,7 @@ require 'faker'
   i = 1
   User.create(
     email: "#{i}@email.com",
+    name: Faker::Name.name,
     password: "password",
     phone_number: Faker::PhoneNumber.phone_number,
     user_type: "merchant",
@@ -22,6 +23,7 @@ end
   i = 6
   User.create(
     email: "#{i}@email.com",
+    name: Faker::Name.name,
     password: "password",
     phone_number: Faker::PhoneNumber.phone_number,
     user_type: "bike boy"
