@@ -34,5 +34,5 @@ class OrdersController < ApplicationController
     params.require(:merchant_id, :items, :total, :cust_name, :cust_street_address,
     :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone).permit(merchant_id, :items, :total, :cust_name, :cust_street_address,
     :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone)
-  end
+  end 
 end
