@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     @user = User.all
   end
 
-  def login
+  def create
     @user = User.find_by(email: params[:email])
     if @user
       status 200
