@@ -43,7 +43,10 @@ class UsersController < ActionController::API
   def merchant_order_json(order_object)
     if order_object.assigned != nil
       return { orderId: order_object.id,
-              deliveryTime: total_delivery_time(order_object),
+              totalDeliveryTime: total_delivery_time(order_object),
+              assignedTime: order_object.assigned.assignment_time,
+              pickupTime: order_object.assigned.pickup.pickup_time,
+              deliveredTime: order_object.assigned.delivered.delivered_time,
               orderTime: order_object.created_at,
               city: order_object.cust_city_town,
               country: order_object.cust_country,
@@ -57,7 +60,11 @@ class UsersController < ActionController::API
             }
     else
       return { orderId: order_object.id,
-              deliveryTime: nil,
+              totalDeliveryTime: nil,
+              totalDeliveryTime: nil,
+              assignedTime: nil,
+              pickupTime: nil,
+              deliveredTime: nil,
               orderTime: order_object.created_at,
               city: order_object.cust_city_town,
               country: order_object.cust_country,
