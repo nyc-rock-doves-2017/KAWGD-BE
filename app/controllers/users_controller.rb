@@ -45,8 +45,8 @@ class UsersController < ActionController::API
       return { orderId: order_object.id,
               totalDeliveryTime: total_delivery_time(order_object),
               assignedTime: order_object.assigned.assignment_time,
-              pickupTime: order_object.assigned.pickup.pickup_time,
-              deliveredTime: order_object.assigned.delivered.delivered_time,
+              pickupTime: order_object.pickup.pickup_time,
+              deliveredTime: order_object.delivered.delivered_time,
               orderTime: order_object.created_at,
               city: order_object.cust_city_town,
               country: order_object.cust_country,
@@ -84,7 +84,22 @@ class UsersController < ActionController::API
   end
 
   def bikeboy_orders_json(order_object)
-
+    return { orderId: order_object.id,
+            totalDeliveryTime: total_delivery_time(order_object),
+            assignedTime: order_object.assigned.assignment_time,
+            pickupTime: order_object.pickup.pickup_time,
+            deliveredTime: order_object.delivered.delivered_time,
+            orderTime: order_object.created_at,
+            city: order_object.cust_city_town,
+            country: order_object.cust_country,
+            customerName: order_object.cust_name,
+            phone: order_object.cust_phone_number,
+            state: order_object.cust_state,
+            street: order_object.cust_street_ad,
+            zipcode: order_object.cust_zipcode,
+            items: order_object.items,
+            totalPrice: order_object.total_price
+          }
   end
 
 end
