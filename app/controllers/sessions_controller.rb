@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-
   def index
     @user = User.all
   end
@@ -13,4 +12,5 @@ class SessionsController < ApplicationController
       status 400
     end
   end
+
 end
