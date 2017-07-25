@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  def verify
+  def index
     @user = User.new
   end
 
