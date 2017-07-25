@@ -22,8 +22,7 @@ class UsersController < ActionController::API
       @data = []
       orders.each do |order|
         if order.assigned != nil
-          @data << order
-          @data << order.assigned.delivered
+          @data << custom_order_json(order)
           # Wan needs order_id and delivered_time
         else
           @data << order
@@ -44,6 +43,26 @@ class UsersController < ActionController::API
 
   def user_params
     params.require(:email, :password, :phone_number, :user_type).permit(:email, :password, :phone_number, :user_type)
+  end
+
+  def custom_order_json(order_object)
+    {
+      order_id: order_object.id,
+      delivery_time: total_delivery_time(order_object),
+      city: order_object.cust_city_town,
+      country: order_object.cust_country,
+      name: order_object.cust_name,
+      phone: order_object.cust_phone_number,
+      state: order_object.cust_state,
+      street: order_object.cust_street_ad,
+      zipcode: order_object.cust_zipcode,
+      items: order_object.items,
+      total_price: order_object.total_price
+    }
+  end
+
+  def total_delivery_time(order_object)
+    time = order_object.delivered.delivered_time - order_object.created_at
   end
 
 end
