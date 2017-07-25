@@ -1,8 +1,14 @@
 require 'faker'
 
+Delivered.destroy_all
+Pickup.destroy_all
+Assigned.destroy_all
+Order.destroy_all
+User.destroy_all
+
 # Merchants
+i = 1
 5.times do
-  i = 1
   User.create(
     email: "#{i}@email.com",
     password: "password",
@@ -18,8 +24,8 @@ require 'faker'
 end
 
 # Bike Boys
+i = 6
 5.times do
-  i = 6
   User.create(
     email: "#{i}@email.com",
     password: "password",
@@ -30,9 +36,10 @@ end
 end
 
 # Orders
-10.times do
-  o = Order.create(
-    merchant_id: 1,
+i = 1
+5.times do
+  Order.create(
+    merchant_id: i,
     items: "Burritos",
     total_price: 6,
     cust_name: Faker::Name.name,
@@ -43,21 +50,35 @@ end
     cust_country: "United States",
     cust_phone_number: Faker::PhoneNumber.phone_number
   )
+  i += 1
 end
 
-Assigned.create(
-  order_id: 1,
-  deliverer_id: rand(6..10),
-  assignment_time: DateTime.now
-)
+i = 1
+d = 6
+5.times do
+  Assigned.create(
+    order_id: i,
+    deliverer_id: d,
+    assignment_time: DateTime.now
+  )
+  i += 1
+  d += 1
+end
 
+i = 1
+5.times do
+  Pickup.create(
+    assigned_id: i,
+    pickup_time: DateTime.now
+  )
+  i += 1
+end
 
-Pickup.create(
-  assigned_id: 1,
-  pickup_time: DateTime.now
-)
-
-Delivered.create(
-  assigned_id: 1,
-  delivered_time: DateTime.now
-)
+i = 1
+5.times do
+  Delivered.create(
+    assigned_id: i,
+    delivered_time: DateTime.now
+  )
+  i += 1
+end
