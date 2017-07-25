@@ -65,7 +65,6 @@ i = 1
     cust_phone_number: Faker::PhoneNumber.phone_number
   )
   i += 1
-  binding.pry
 end
 
 i = 1
