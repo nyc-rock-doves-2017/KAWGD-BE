@@ -31,7 +31,7 @@ i = 10
   i += 1
 end
 
-# Orders
+# Assigned Orders
 i = 1
 40.times do
   Order.create(
@@ -47,6 +47,25 @@ i = 1
     cust_phone_number: Faker::PhoneNumber.phone_number
   )
   i += 1
+end
+
+# Unassigned Orders
+i = 1
+20.times do
+  Order.create(
+    merchant_id: i,
+    items: "Burritos",
+    total_price: 6,
+    cust_name: Faker::Name.name,
+    cust_street_ad: "420 High Street",
+    cust_city_town: "New York City",
+    cust_state: "NY",
+    cust_zipcode: "10001",
+    cust_country: "United States",
+    cust_phone_number: Faker::PhoneNumber.phone_number
+  )
+  i += 1
+  binding.pry
 end
 
 i = 1

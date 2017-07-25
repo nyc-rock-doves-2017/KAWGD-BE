@@ -26,11 +26,11 @@ class UsersController < ActionController::API
       render json: @data
     else
       assigned = Assigned.where(deliverer_id: @user.id)
-      @orders = []
+      @data = []
       assigned.each do |assigned_object|
-        @orders << Order.find_by(id: assigned_object.order_id)
+        @data << bikeboy_orders_json(Order.find_by(id: assigned_object.order_id))
       end
-      render json: @orders
+      render json: @data
     end
   end
 

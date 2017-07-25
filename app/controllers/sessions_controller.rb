@@ -3,10 +3,9 @@ class SessionsController < ApplicationController
     @user = User.all
   end
 
-  def login
-    @user = User.find_by(email: params[:email])
+  def create
+    @user = User.find_by_email(params[:email])
     if @user
-      status 200
       render json: {id: @user.id, name: @user.name}
     else
       status 400
