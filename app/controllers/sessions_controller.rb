@@ -8,7 +8,10 @@ class SessionsController < ApplicationController
     if @user
       render json: {id: @user.id, name: @user.name}
     else
-      render { status: 400 }
+      render json: {
+        error: "No such user; check the submitted email address",
+        status: 400
+      }, status: 400
     end
   end
 
