@@ -1,11 +1,5 @@
 require 'faker'
 
-Delivered.destroy_all
-Pickup.destroy_all
-Assigned.destroy_all
-Order.destroy_all
-User.destroy_all
-
 # Merchants
 i = 1
 5.times do

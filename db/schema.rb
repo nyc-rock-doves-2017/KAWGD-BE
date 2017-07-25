@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170724191309) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "assigneds", force: :cascade do |t|
     t.integer "order_id", null: false
     t.integer "deliverer_id", null: false
@@ -51,6 +54,7 @@ ActiveRecord::Schema.define(version: 20170724191309) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
+    t.string "name", null: false
     t.string "password", null: false
     t.string "phone_number", null: false
     t.string "user_type", null: false
