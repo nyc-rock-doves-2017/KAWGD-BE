@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-  def verify
-    @user = User.new
+  def index
+    @user = User.all
   end
 
   def login
