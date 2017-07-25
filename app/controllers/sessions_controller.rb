@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     if @user
       render json: {id: @user.id, name: @user.name}
     else
-      status 400
+      render { status: 400 }
     end
   end
 
