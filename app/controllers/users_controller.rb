@@ -21,12 +21,7 @@ class UsersController < ActionController::API
       orders = Order.where(merchant_id: @user.id)
       @data = []
       orders.each do |order|
-        if order.assigned != nil
-          @data << custom_order_json(order)
-          # Wan needs order_id and delivered_time
-        else
-          @data << order
-        end
+        @data << merchant_order_json(order)
       end
       render json: @data
     else
@@ -45,24 +40,42 @@ class UsersController < ActionController::API
     params.require(:email, :password, :phone_number, :user_type).permit(:email, :password, :phone_number, :user_type)
   end
 
-  def custom_order_json(order_object)
-    {
-      order_id: order_object.id,
-      delivery_time: total_delivery_time(order_object),
-      city: order_object.cust_city_town,
-      country: order_object.cust_country,
-      name: order_object.cust_name,
-      phone: order_object.cust_phone_number,
-      state: order_object.cust_state,
-      street: order_object.cust_street_ad,
-      zipcode: order_object.cust_zipcode,
-      items: order_object.items,
-      total_price: order_object.total_price
-    }
+  def merchant_order_json(order_object)
+    if order_object.assigned != nil
+      return { orderId: order_object.id,
+              deliveryTime: total_delivery_time(order_object),
+              city: order_object.cust_city_town,
+              country: order_object.cust_country,
+              customerName: order_object.cust_name,
+              phone: order_object.cust_phone_number,
+              state: order_object.cust_state,
+              street: order_object.cust_street_ad,
+              zipcode: order_object.cust_zipcode,
+              items: order_object.items,
+              totalPrice: order_object.total_price
+            }
+    else
+      return { orderId: order_object.id,
+              deliveryTime: nil,
+              city: order_object.cust_city_town,
+              country: order_object.cust_country,
+              customerName: order_object.cust_name,
+              phone: order_object.cust_phone_number,
+              state: order_object.cust_state,
+              street: order_object.cust_street_ad,
+              zipcode: order_object.cust_zipcode,
+              items: order_object.items,
+              totalPrice: order_object.total_price
+            }
+    end
   end
 
   def total_delivery_time(order_object)
     time = order_object.delivered.delivered_time - order_object.created_at
+  end
+
+  def bikeboy_orders_json(order_object)
+
   end
 
 end
