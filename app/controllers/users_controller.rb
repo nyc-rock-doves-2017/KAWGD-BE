@@ -37,7 +37,7 @@ class UsersController < ActionController::API
   private
 
   def user_params
-    params.require(:email, :password, :phone_number, :user_type).permit(:email, :password, :phone_number, :user_type)
+    params.require(:email, :name, :password, :phone_number, :user_type).permit(:email, :name, :password, :phone_number, :user_type)
   end
 
   def merchant_order_json(order_object)

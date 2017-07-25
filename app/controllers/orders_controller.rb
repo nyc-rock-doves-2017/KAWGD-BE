@@ -30,7 +30,20 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order = Order.find_by(id: params[:id])
+    @order = Order.find_by(id: params[:order_id])
+    @assigned = Assigned.find_by(order_id: @order.id)
+    @pickup = Pickup.find_by(assigned_id: @assigned.id)
+    @delivered = Delivered.find_by(assigned_id: @assigned.id)
+    @deliverer = User.find_by(id: params[:deliverer_id])
+    @case = params[:case]
+    if @case == "assignment"
+      @assigned.assignment_time = Time.now
+    elsif @case == "pickup"
+      @pickup.pickup_time = Time.now
+    else
+      @delivered.delivered_time = Time.now
+    end
+    render json: @order.order_details
 
   end
 
