@@ -11,6 +11,7 @@ i = 1
 5.times do
   User.create(
     email: "#{i}@email.com",
+    name: Faker::Name.name,
     password: "password",
     phone_number: Faker::PhoneNumber.phone_number,
     user_type: "merchant",
@@ -28,6 +29,7 @@ i = 6
 5.times do
   User.create(
     email: "#{i}@email.com",
+    name: Faker::Name.name,
     password: "password",
     phone_number: Faker::PhoneNumber.phone_number,
     user_type: "bike boy"
