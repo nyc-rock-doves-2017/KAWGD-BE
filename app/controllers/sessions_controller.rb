@@ -1,10 +1,16 @@
 class SessionsController < ApplicationController
-  def create
-    user = User.find_by(email: params[:email], password: params[:password])
-    if user
-      render json: "OK"
+
+  def index
+    @user = User.all
+  end
+
+  def login
+    @user = User.find_by(email: params[:email])
+    if @user
+      status 200
+      render json: {id: @user.id, name: @user.name}
     else
-      render json: {status: 400}
+      status 400
     end
   end
 end

@@ -44,6 +44,7 @@ class UsersController < ActionController::API
     if order_object.assigned != nil
       return { orderId: order_object.id,
               deliveryTime: total_delivery_time(order_object),
+              order_time: order_object.created_at,
               city: order_object.cust_city_town,
               country: order_object.cust_country,
               customerName: order_object.cust_name,
@@ -57,6 +58,7 @@ class UsersController < ActionController::API
     else
       return { orderId: order_object.id,
               deliveryTime: nil,
+              order_time: order_object.created_at,
               city: order_object.cust_city_town,
               country: order_object.cust_country,
               customerName: order_object.cust_name,
