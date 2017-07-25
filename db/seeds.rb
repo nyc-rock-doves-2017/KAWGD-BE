@@ -55,7 +55,7 @@ d = 6
   Assigned.create(
     order_id: i,
     deliverer_id: d,
-    assignment_time: DateTime.now
+    assignment_time: DateTime.new(2017, 7, 25, rand(1..24), rand(1..60))
   )
   i += 1
   d += 1
@@ -65,7 +65,7 @@ i = 1
 5.times do
   Pickup.create(
     assigned_id: i,
-    pickup_time: DateTime.now
+    pickup_time: DateTime.new(2017, 7, 25, rand(1..24), rand(1..60))
   )
   i += 1
 end

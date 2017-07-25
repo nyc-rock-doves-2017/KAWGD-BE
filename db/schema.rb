@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20170724191309) do
 
   create_table "assigneds", force: :cascade do |t|
     t.integer "order_id", null: false
-    t.integer "deliverer_id", null: false
-    t.datetime "assignment_time", null: false
+    t.integer "deliverer_id"
+    t.datetime "assignment_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
