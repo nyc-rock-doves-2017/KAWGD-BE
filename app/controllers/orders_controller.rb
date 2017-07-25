@@ -14,4 +14,25 @@ class OrdersController < ApplicationController
     end
     render json: @unassigned_orders
   end
+
+  def create
+    @order = Order.new(order_params)
+    if @order.save
+      status 200
+    else
+      status 400
+    end
+  end
+
+  def update
+    
+  end
+
+  private
+
+  def order_params
+    params.require(:merchant_id, :items, :total, :cust_name, :cust_street_address,
+    :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone).permit(merchant_id, :items, :total, :cust_name, :cust_street_address,
+    :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone)
+  end
 end
