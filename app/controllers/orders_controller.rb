@@ -40,17 +40,19 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find_by(id: params[:id])
-    @assigned = Assigned.find_by(order_id: @order.id)
-    @pickup = Pickup.find_by(assigned_id: @assigned.id)
-    @delivered = Delivered.find_by(assigned_id: @assigned.id)
+    # @assigned = @order.assigned
+    # @pickup = @order.pickup
+    # @delivered = @order.delivered
     @deliverer = User.find_by(id: params[:deliverer_id])
-    @case = params[:case]
+    @case = params[:status]
     if @case == "assignment"
-      @assigned.assignment_time = Time.now
+      Assigned.create(order_id: @order.id, deliverer_id: @deliverer.id, assignment_time: DateTime.now)
     elsif @case == "pickup"
-      @pickup.pickup_time = Time.now
+      Pickup.create(assigned_id: @order.assigned.id, pickup_time: DateTime.now)
+    elsif @case == "delivered"
+      Delivered.create(assigned_id: @order.assigned.id, delivered_time: DateTime.now)
     else
-      @delivered.delivered_time = Time.now
+      render json: { error: 400 }
     end
     render json: order_details(@order)
 
@@ -66,12 +68,31 @@ class OrdersController < ApplicationController
   def order_details(order_object)
     @order = Order.find_by(id: order_object.id)
     @assigned = Assigned.find_by(order_id: @order.id)
-    @pickup = Pickup.find_by(assigned_id: @assigned.id)
-    @delivered = Delivered.find_by(assigned_id: @assigned.id)
+    if @pickup = Pickup.find_by(assigned_id: @assigned.id)
+      @pickup = @pickup.pickup_time
+    else
+      @pickup = nil
+    end
+
+    if @delivered = Delivered.find_by(assigned_id: @assigned.id)
+      @delivered = @delivered.delivered_time
+    else
+      @delivered = nil
+    end
     @bikeboy = User.find_by(id: @assigned.deliverer_id)
     @merchant = User.find_by(id: @order.merchant_id)
-    @details = [{orderId: @order.id, bikeboyId: @bikeboy.id, bikeboyName: @bikeboy.name, assigned: @assigned.assignment_time, pickup: @pickup.pickup_time, droppedOff: @delivered.delivered_time, merchantName: @merchant.name, merchantId: @merchant.id}]
-    return @details
+
+    @details = [ {
+      orderId: @order.id,
+      bikeboyId: @bikeboy.id,
+      bikeboyName: @bikeboy.name,
+      assigned: @assigned.assignment_time,
+      pickup: @pickup,
+      droppedOff: @delivered,
+      merchantName: @merchant.name,
+      merchantId: @merchant.id
+      } ]
+  return @details
   end
 
   def camel_order(order_object)
