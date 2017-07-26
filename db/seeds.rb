@@ -2,7 +2,7 @@ require 'faker'
 
 # Merchants
 i = 1
-10.times do
+50.times do
   User.create(
     email: "#{i}@email.com",
     name: Faker::Name.name,
@@ -19,8 +19,8 @@ i = 1
 end
 
 # Bike Boys
-i = 10
-10.times do
+i = 51
+50.times do
   User.create(
     email: "#{i}@email.com",
     name: Faker::Name.name,
@@ -33,7 +33,7 @@ end
 
 # Assigned Orders
 i = 1
-40.times do
+50.times do
   Order.create(
     merchant_id: i,
     items: "Burritos",
@@ -51,7 +51,7 @@ end
 
 # Unassigned Orders
 i = 1
-20.times do
+50.times do
   Order.create(
     merchant_id: i,
     items: "Burritos",
@@ -68,29 +68,29 @@ i = 1
 end
 
 i = 1
-40.times do
+50.times do
   Assigned.create(
     order_id: i,
-    deliverer_id: rand(10..20),
+    deliverer_id: rand(51..101),
     assignment_time: DateTime.now
   )
   i += 1
 end
 
 i = 1
-40.times do
+50.times do
   Pickup.create(
     assigned_id: i,
-    pickup_time: DateTime.now
+    pickup_time: DateTime.now + 5.minutes
   )
   i += 1
 end
 
 i = 1
-40.times do
+50.times do
   Delivered.create(
     assigned_id: i,
-    delivered_time: DateTime.now
+    delivered_time: DateTime.now + 15.minutes
   )
   i += 1
 end
