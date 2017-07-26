@@ -10,12 +10,13 @@ class UsersController < ActionController::API
       render json: @user.id
       render json: {
         status: 200
-      }, status: 200
+        }, status: 200
     else
       render json: {
         error: "No such user; check the submitted email address",
         status: 400
       }, status: 400
+      puts "help"
     end
   end
 
@@ -42,7 +43,7 @@ class UsersController < ActionController::API
   private
 
   def user_params
-    params.require(:email, :name, :password, :phone_number, :user_type).permit(:email, :name, :password, :phone_number, :user_type)
+    params.require(:user).permit(:email, :name, :password, :phone_number, :user_type)
   end
 
   def merchant_order_json(order_object)
