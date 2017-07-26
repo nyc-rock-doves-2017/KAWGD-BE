@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   def index
     @orders = Order.all
     @unassigned_orders = []
+    @unassigned_orders_camelized = []
     @assigned = Assigned.all
     @assigned_orders = []
     @assigned.each do |assigned|
@@ -12,7 +13,12 @@ class OrdersController < ApplicationController
         @unassigned_orders << order
       end
     end
-    render json: @unassigned_orders
+
+    @unassigned_orders.each do |order|
+      @unassigned_orders_camelized << camel_order(order)
+    end
+
+    render json: @unassigned_orders_camelized
   end
 
   def show
@@ -23,9 +29,12 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     if @order.save
-      status 200
+      render json: @order
     else
-      status 400
+      render json: {
+        error: "Invalid User. Please check your input and try again.",
+        status: 400
+      }, status: 400
     end
   end
 
@@ -65,4 +74,19 @@ class OrdersController < ApplicationController
     @details = [{orderId: @order.id, bikeboyId: @bikeboy.id, bikeboyName: @bikeboy.name, assigned: @assigned.assignment_time, pickup: @pickup.pickup_time, droppedOff: @delivered.delivered_time, merchantName: @merchant.name, merchantId: @merchant.id}]
     return @details
   end
+
+  def camel_order(order_object)
+    return {id: order_object.id,
+            merchantId: order_object.merchant_id,
+            item: order_object.items,
+            total: order_object.total,
+            custName: order_object.cust_name,
+            custStreetAddress: order_object.cust_street_address,
+            custCityTown: order_object.cust_city_town,
+            custState: order_object.cust_state,
+            custZipcode: order_object.cust_zipcode,
+            custCountry: order_object.cust_country,
+            custPhone: order_object.cust_phone}
+  end
+
 end
