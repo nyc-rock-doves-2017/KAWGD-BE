@@ -59,9 +59,8 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:merchant_id, :items, :total, :cust_name, :cust_street_address,
-    :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone).permit(merchant_id, :items, :total, :cust_name, :cust_street_address,
-    :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone)
+    params.require(:order).permit(:merchant_id, :items, :total_price, :cust_name, :cust_street_ad,
+    :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone_number)
   end
 
   def order_details
@@ -79,14 +78,14 @@ class OrdersController < ApplicationController
     return {id: order_object.id,
             merchantId: order_object.merchant_id,
             item: order_object.items,
-            total: order_object.total,
+            total: order_object.total_price,
             custName: order_object.cust_name,
-            custStreetAddress: order_object.cust_street_address,
+            custStreetAddress: order_object.cust_street_ad,
             custCityTown: order_object.cust_city_town,
             custState: order_object.cust_state,
             custZipcode: order_object.cust_zipcode,
             custCountry: order_object.cust_country,
-            custPhone: order_object.cust_phone}
+            custPhone: order_object.cust_phone_number}
   end
 
 end
