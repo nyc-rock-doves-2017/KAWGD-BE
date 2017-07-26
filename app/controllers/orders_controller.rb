@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order = Order.find_by(id: params[:order_id])
+    @order = Order.find_by(id: params[:id])
     @assigned = Assigned.find_by(order_id: @order.id)
     @pickup = Pickup.find_by(assigned_id: @assigned.id)
     @delivered = Delivered.find_by(assigned_id: @assigned.id)
@@ -52,7 +52,7 @@ class OrdersController < ApplicationController
     else
       @delivered.delivered_time = Time.now
     end
-    render json: @order.order_details
+    render json: order_details(@order)
 
   end
 
@@ -63,8 +63,8 @@ class OrdersController < ApplicationController
     :cust_city_town, :cust_state, :cust_zipcode, :cust_country, :cust_phone_number)
   end
 
-  def order_details
-    @order = Order.find_by(id: params[:id])
+  def order_details(order_object)
+    @order = Order.find_by(id: order_object.id)
     @assigned = Assigned.find_by(order_id: @order.id)
     @pickup = Pickup.find_by(assigned_id: @assigned.id)
     @delivered = Delivered.find_by(assigned_id: @assigned.id)
